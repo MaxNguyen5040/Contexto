@@ -1,14 +1,18 @@
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
-tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased-finetuned-sst-2-english")
+class TextComparisonModel:
+    def __init__(self, model_name="bert-base-uncased-finetuned-sst-2-english"):
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
-def compare_texts(text1, text2):
-    inputs = tokenizer(text1, text2, return_tensors="pt", max_length=512, truncation=True)
-    logits = model(**inputs).logits
-    return torch.argmax(logits, dim=1).item()
+    def compare_texts(self, text1, text2):
+        inputs = self.tokenizer(text1, text2, return_tensors="pt", max_length=512, truncation=True)
+        logits = self.model(**inputs).logits
+        similarity_score = torch.argmax(logits, dim=1).item()
+        return similarity_score
 
-# Usage example
-similarity_score = compare_texts("This is sentence 1.", "This is sentence 2.")
+# Example usage
+model = TextComparisonModel()
+similarity_score = model.compare_texts("Hi I'm coding for hack club", "hackc lub arcade is cool")
 print(f"Similarity Score: {similarity_score}")

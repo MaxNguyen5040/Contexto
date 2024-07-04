@@ -51,6 +51,13 @@ def update_output(submit_clicks, reset_clicks, value):
     score = f"Score: {game.score}"
     return result, html.Ul(history_list), score
 
+def update_model_result(n_clicks, text1, text2):
+    if n_clicks > 0 and text1 and text2:
+        comparison_result = compare_texts(text1, text2)
+        if comparison_result is not None:
+            return html.Div(f"Model comparison result: {comparison_result}")
+    return html.Div("")
+
 if __name__ == '__main__':
     app.run_server(debug=True)
 
