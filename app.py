@@ -47,21 +47,9 @@ def update_output(submit_clicks, reset_clicks, value):
         return "", "", ""
     result = game.check_guess(value)
     history = game.get_guesses()
+    history_list = [html.Li([html.Strong(guess) if guess == game.target_word else guess for guess in history])]
     score = f"Score: {game.score}"
-    return result, html.Ul([html.Li(guess) for guess in history]), score
-
-@app.callback(
-    [Output('output-div', 'children'),
-     Output('guess-history', 'children')],
-    [Input('submit-button', 'n_clicks')],
-    [dash.dependencies.State('word-input', 'value')]
-)
-def update_output(n_clicks, value):
-    if n_clicks is None or not value:
-        return "", ""
-    result = game.check_guess(value)
-    history = game.get_guesses()
-    return result, html.Ul([html.Li(guess) for guess in history])
+    return result, html.Ul(history_list), score
 
 if __name__ == '__main__':
     app.run_server(debug=True)
