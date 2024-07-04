@@ -4,8 +4,6 @@ from dash import dash_html_components as html
 from dash import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.H1("Contexto Game"), className="text-center")
@@ -18,6 +16,16 @@ app.layout = dbc.Container([
         dbc.Col(html.Div(id="output-div"), width=12)
     ])
 ], fluid=True)
+
+@app.callback(
+    Output('output-div', 'children'),
+    [Input('submit-button', 'n_clicks')],
+    [dash.dependencies.State('word-input', 'value')]
+)
+def update_output(n_clicks, value):
+    if n_clicks is None:
+        return ""
+    return f"You guessed: {value}"
 
 if __name__ == '__main__':
     app.run_server(debug=True)
