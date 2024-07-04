@@ -47,7 +47,7 @@ def update_output(submit_clicks, reset_clicks, value):
         return "", "", ""
     result = game.check_guess(value)
     history = game.get_guesses()
-    history_list = [html.Li([html.Strong(guess) if guess == game.target_word else guess for guess in history])]
+    history_list = [html.Li(f"{guess} - {fetch_word_definition(guess)}") for guess in history]
     score = f"Score: {game.score}"
     return result, html.Ul(history_list), score
 

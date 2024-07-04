@@ -1,8 +1,9 @@
 import random
+from word_store import load_words
 
 class ContextoGame:
     def __init__(self):
-        self.words = ["example", "python", "context", "game", "learning", "data", "science", "machine", "intelligence", "code"]
+        self.words = list(load_words().keys())
         self.target_word = random.choice(self.words)
         self.guesses = []
         self.score = 0
