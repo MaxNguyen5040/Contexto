@@ -8,11 +8,10 @@ class ContextoGame:
     def check_guess(self, guess):
         self.guesses.append(guess)
         if guess == self.target_word:
-            return "Correct!"
+            return f"{guess} is Correct!"
         else:
-            return f"{guess} is not the word."
-
-    def get_guesses(self):
-        return self.guesses
+            # Example feedback logic
+            common_letters = set(guess) & set(self.target_word)
+            return f"{guess} is not the word. Common letters: {', '.join(common_letters)}"
 
 game = ContextoGame()
