@@ -1,0 +1,18 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+.text-center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#word-input {
+    width: 100%;
+    padding: 10px;
+}
+
+#submit-button {
+    width:100%;
+}
