@@ -58,6 +58,22 @@ def update_model_result(n_clicks, text1, text2):
             return html.Div(f"Model comparison result: {comparison_result}")
     return html.Div("")
 
+@app.callback(
+    Output('similarity-output', 'children'),
+    [Input('word-dropdown', 'value')]
+)
+def update_similarity_output(selected_word):
+    if selected_word:
+        similarities = model.calculate_word_similarity(words)
+        similar_words = similarities[selected_word]
+        sorted_similar_words = sorted(similar_words.items(), key=lambda item: item[1], reverse=True)
+        
+        return html.Div([
+            html.H3(f"Most Similar Words to '{selected_word}':"),
+            html.Ul([html.Li(f"{word}: {score}") for word, score in sorted_similar_words])
+        ])
+    return html.Div("")
+
 if __name__ == '__main__':
     app.run_server(debug=True)
 
