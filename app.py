@@ -1,32 +1,46 @@
 import dash
-from dash import dash_core_components as dcc
-from dash import dash_html_components as html
-from dash import dash_bootstrap_components as dbc
-from dash.dependencies import Input, Output
+from dash import dcc, html, Input, Output
 from game_logic import game
+import dash_bootstrap_components as dbc
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 app.layout = dbc.Container([
-    dbc.Row([
-        dbc.Col(html.H1("Contexto Game"), className="text-center")
-    ]),
-    dbc.Row([
-        dbc.Col(dcc.Input(id="word-input", type="text", placeholder="Enter your guess"), width=8),
-        dbc.Col(dbc.Button("Submit", id="submit-button", color="primary"), width=2),
-        dbc.Col(dbc.Button("Reset", id="reset-button", color="secondary"), width=2)
-    ]),
-    dbc.Row([
-        dbc.Col(html.Div(id="output-div"), width=12)
-    ]),
-    dbc.Row([
-        dbc.Col(html.H3("Guess History"), className="text-center"),
-        dbc.Col(html.Div(id="guess-history"), width=12)
-    ]),
-    dbc.Row([
-        dbc.Col(html.Div(id="score-div"), width=12)
+    dcc.Tabs([
+        dcc.Tab(label='Dictionary', children=[
+            dcc.Input(id='input-word', type='text', placeholder='Enter a word...', className="mb-2"),
+            dbc.Button('Get Definition and Synonyms', id='btn-define', color="primary", className="mb-2"),
+            html.Div(id='word-data-output')
+        ]),
+        dcc.Tab(label='Compare Words', children=[
+            dcc.Input(id='input-word', type='text', placeholder='Enter a word...', className="mb-2"),
+            dcc.Input(id='compare-word', type='text', placeholder='Enter another word...', className="mb-2"),
+            dbc.Button('Compare Words', id='btn-compare', color="secondary", className="mb-2"),
+            html.Div(id='compare-output')
+        ]),
+        dcc.Tab(label='Contexto', children=[
+            html.H1('Contexto'),
+            html.Div(id='contexto-demo', children=[
+                html.Div(className='guess', children=[
+                    html.Span('Code'),
+                    html.Span('Similarity Score: 85')
+                ]),
+                html.Div(className='guess', children=[
+                    html.Span('Keyboard'),
+                    html.Span('Similarity Score: 78')
+                ]),
+                html.Div(className='guess', children=[
+                    html.Span('Mouse'),
+                    html.Span('Similarity Score: 65')
+                ]),
+                html.Div(className='guess', children=[
+                    html.Span('Python'),
+                    html.Span('Similarity Score: 90')
+                ]),
+            ]),
+        ])
     ])
-], fluid=True)
+])
 
 @app.callback(
     [Output('output-div', 'children'),

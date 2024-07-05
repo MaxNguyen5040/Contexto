@@ -3,7 +3,7 @@ from word_store import load_words
 
 class ContextoGame:
     def __init__(self):
-        self.words = list(load_words().keys())
+        self.words = ["code","hacking"]
         self.target_word = random.choice(self.words)
         self.guesses = []
         self.score = 0
